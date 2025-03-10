@@ -15,18 +15,16 @@ volatile int flag_g = 0;
 volatile bool timer_tick_flag_r = false;  
 volatile bool timer_tick_flag_g = false;  
 
-volatile bool timer_active_r = false;
-volatile bool timer_active_g = false;
 
-struct repeating_timer timerr;  
-struct repeating_timer timerg;  
+repeating_timer_t timerr;
+repeating_timer_t timerg;
 
-bool timer_callback_red(struct repeating_timer *t) {
+bool timer_callback_red(repeating_timer_t *t) {
     timer_tick_flag_r = true;
     return true;  
 }
 
-bool timer_callback_green(struct repeating_timer *t) {
+bool timer_callback_green(struct repeating_timer_t *t) {
     timer_tick_flag_g = true;
     return true;  
 }
@@ -61,6 +59,9 @@ int main() {
     
     gpio_set_irq_enabled_with_callback(BTN_PIN_R, GPIO_IRQ_EDGE_FALL, true, &btn_callback);
     gpio_set_irq_enabled(BTN_PIN_G, GPIO_IRQ_EDGE_FALL, true);
+
+    bool timer_active_r = false;
+    bool timer_active_g = false;
     
     while (true) {
         if (flag_r) {
