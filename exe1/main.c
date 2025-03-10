@@ -9,15 +9,15 @@ const int LED_PIN_R = 4;
 volatile int flag_f_r = 0;         
 volatile bool timer_tick_flag = false;  
 volatile bool timer_active = false;     
-struct repeating_timer timer;
+repeating_timer_t timer;
 
 void btn_callback(uint gpio, uint32_t events) {
-    if (events == GPIO_IRQ_EDGE_FALL) { 
+    if (events == 0x4) {  
         flag_f_r = 1;
     }
 }
 
-bool timer_callback(struct repeating_timer *t) {
+bool timer_callback(repeating_timer_t *t) {
     timer_tick_flag = true;
     return true;  
 }
